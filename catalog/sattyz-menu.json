@@ -1,0 +1,1016 @@
+{
+  "source": {
+    "fileName": "Sattyz-Kitchen-Menu-Pamphlet.pdf",
+    "path": "C:\\Users\\NARES\\Downloads\\Sattyz-Kitchen-Menu-Pamphlet.pdf",
+    "sha256": "ba5ebffe1ea8c2dd59b74a1b801c0459addd9cfaa995bd7861c6c0ef1acff2ad",
+    "pages": 2,
+    "currency": "INR",
+    "notes": [
+      "Slash-separated options expanded in the printed order.",
+      "Tax rates and ingredient recipes are not stated.",
+      "Dietary labels are recorded only when explicit in dish names or headings; unknown labels require owner confirmation."
+    ]
+  },
+  "items": [
+    {
+      "id": "sk-634c8abf073b",
+      "name": "Mirchi Biriyani",
+      "category": "The Mirchi Biriyani",
+      "price": 17000,
+      "variant": "Standard Serve",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-d5e863f80aab",
+      "name": "Mirchi Biriyani",
+      "category": "The Mirchi Biriyani",
+      "price": 69900,
+      "variant": "Super Four Serve",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-1ead9f05467f",
+      "name": "Mirchi Biriyani + Grilled Chicken",
+      "category": "The Mirchi Biriyani",
+      "price": 89900,
+      "variant": "Super Four Serve",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-3a3f92df9501",
+      "name": "Shawarma",
+      "category": "The Shawarma",
+      "price": 9000,
+      "variant": "Regular",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-47c1e9d07b66",
+      "name": "Shawarma",
+      "category": "The Shawarma",
+      "price": 12000,
+      "variant": "Special",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-2853b40b1250",
+      "name": "Shawarma",
+      "category": "The Shawarma",
+      "price": 12000,
+      "variant": "Mexican",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-c89a1c6c6800",
+      "name": "Shawarma",
+      "category": "The Shawarma",
+      "price": 12000,
+      "variant": "Peri-Peri",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-1ef7f75bdaeb",
+      "name": "Shawarma",
+      "category": "The Shawarma",
+      "price": 12000,
+      "variant": "Thousand Island",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-25f9085d8407",
+      "name": "Shawarma",
+      "category": "The Shawarma",
+      "price": 13000,
+      "variant": "Cheese Delight",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-96da29e35bc8",
+      "name": "Shawarma Plate",
+      "category": "The Shawarma",
+      "price": 15000,
+      "variant": "Regular",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-281186d9d672",
+      "name": "Shawarma Plate",
+      "category": "The Shawarma",
+      "price": 18000,
+      "variant": "Special",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-d72240119370",
+      "name": "Satty'Z Grills",
+      "category": "Grilled & Smoked",
+      "price": 15000,
+      "variant": "Quarter",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-cb7f48057d9d",
+      "name": "Satty'Z Grills",
+      "category": "Grilled & Smoked",
+      "price": 25000,
+      "variant": "Half",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-17dcb6b91cbb",
+      "name": "Satty'Z Grills",
+      "category": "Grilled & Smoked",
+      "price": 48000,
+      "variant": "Full",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-e5bdb3396dab",
+      "name": "Chicken Bone Soup",
+      "category": "Hot Soups",
+      "price": 6000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-688055d35239",
+      "name": "Chicken Hot & Sour",
+      "category": "Hot Soups",
+      "price": 6000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-f8443c97056f",
+      "name": "Chicken Manchow",
+      "category": "Hot Soups",
+      "price": 6000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-ce6aa195b0ac",
+      "name": "Veg Soup",
+      "category": "Hot Soups",
+      "price": 5000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-9ff02b65a500",
+      "name": "Paneer 65",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-000929279ac1",
+      "name": "Crispy Paneer",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-cb422d2fd180",
+      "name": "Babycorn Crispy",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-884c48cf9ebb",
+      "name": "Babycorn Hot Pepper",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-a472445a0e85",
+      "name": "Gobi 65",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-06c873b6941e",
+      "name": "Gobi Pepper Fry",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-dc6dc7b39803",
+      "name": "Mushroom 65",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-773891d8a078",
+      "name": "Mushroom Pepper Fry",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-8b1fff07983c",
+      "name": "Cashew Fry",
+      "category": "Veg Starters",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-5ff636f1df86",
+      "name": "Channa Sundal Fry",
+      "category": "Veg Starters",
+      "price": 6000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-a03b19b5c46c",
+      "name": "Nallampatti Chicken Wings",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 14000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-38cfc4e166ca",
+      "name": "Nallampatti Chicken",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 14000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-9dacc8f9baa4",
+      "name": "Kattu Varuval",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-9d33d55c6227",
+      "name": "Chicken 65",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 8000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-6a58e0d0254e",
+      "name": "Chicken Uppu Kari",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 8000,
+      "variant": "Dry",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-577db48e1e09",
+      "name": "Chicken Uppu Kari",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 8000,
+      "variant": "Water",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-9d6b45aac37f",
+      "name": "Chicken Chinthamai",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-0bd8faa010f9",
+      "name": "Pepper Chicken Dry",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-b3756aa1c080",
+      "name": "555 Chicken",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-3930fdab13d5",
+      "name": "Sivakasi Chicken",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-18f0b11a4750",
+      "name": "Andhra Chicken",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-f66802d0e80e",
+      "name": "Ghee Podi Chicken",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-14b1acaf88e3",
+      "name": "Majestic Chicken",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-695ee3d7e3c1",
+      "name": "Chicken Sukka",
+      "category": "Satty'Z In-House Chicken Bites",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-3d981ac114b5",
+      "name": "Japan Chicken",
+      "category": "Half Chinese, Half Fusion",
+      "price": 16000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-c9451a8d3312",
+      "name": "Chilli Chicken",
+      "category": "Half Chinese, Half Fusion",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-0c55b0a5c4c6",
+      "name": "Dragon Chicken",
+      "category": "Half Chinese, Half Fusion",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-68feee62f813",
+      "name": "Lemon Chicken",
+      "category": "Half Chinese, Half Fusion",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-e58cc128533f",
+      "name": "Mongolian Chicken",
+      "category": "Half Chinese, Half Fusion",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-55c33f860d24",
+      "name": "Crispy Chicken",
+      "category": "Half Chinese, Half Fusion",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-9f95233be274",
+      "name": "French Fries with Popcorn Chicken",
+      "category": "Continental – Remastered",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-fd9330fc4302",
+      "name": "Nachos Chicken",
+      "category": "Continental – Remastered",
+      "price": 10000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-c3e60137eb75",
+      "name": "French Fries Peri-Peri",
+      "category": "Continental – Remastered",
+      "price": 7000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-1b3835016e81",
+      "name": "Fried Noodle",
+      "category": "Super Wok Tossed",
+      "price": 12000,
+      "variant": "Chicken",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-57f8eddf339b",
+      "name": "Fried Noodle",
+      "category": "Super Wok Tossed",
+      "price": 10000,
+      "variant": "Egg",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-444ba1db4025",
+      "name": "Fried Noodle",
+      "category": "Super Wok Tossed",
+      "price": 9000,
+      "variant": "Veg",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-be2a892c2337",
+      "name": "Fried Rice",
+      "category": "Super Wok Tossed",
+      "price": 12000,
+      "variant": "Chicken",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-d3563160e767",
+      "name": "Fried Rice",
+      "category": "Super Wok Tossed",
+      "price": 10000,
+      "variant": "Egg",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-3c5ceb99ffa1",
+      "name": "Fried Rice",
+      "category": "Super Wok Tossed",
+      "price": 9000,
+      "variant": "Veg",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-9ba25264e4e3",
+      "name": "Szechuan Fried Rice (Spicy)",
+      "category": "Super Wok Tossed",
+      "price": 13000,
+      "variant": "Chicken",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-7650691d30c6",
+      "name": "Szechuan Fried Rice (Spicy)",
+      "category": "Super Wok Tossed",
+      "price": 11000,
+      "variant": "Egg",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-649dc78d4f41",
+      "name": "Szechuan Fried Rice (Spicy)",
+      "category": "Super Wok Tossed",
+      "price": 10000,
+      "variant": "Veg",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-e5e23e2260c1",
+      "name": "Szechuan Fried Noodle (Spicy)",
+      "category": "Super Wok Tossed",
+      "price": 13000,
+      "variant": "Chicken",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-643e7c326602",
+      "name": "Szechuan Fried Noodle (Spicy)",
+      "category": "Super Wok Tossed",
+      "price": 11000,
+      "variant": "Egg",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-6a81fb5872a3",
+      "name": "Szechuan Fried Noodle (Spicy)",
+      "category": "Super Wok Tossed",
+      "price": 10000,
+      "variant": "Veg",
+      "veg": true,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-41d9729396fe",
+      "name": "Nallampatti Chicken Fried Rice",
+      "category": "Super Wok Tossed",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-e0a791e0cab1",
+      "name": "SK Special Dal Rice",
+      "category": "Super Wok Tossed",
+      "price": 9000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-3d79f2b0fa12",
+      "name": "Special Curd Rice",
+      "category": "Super Wok Tossed",
+      "price": 8000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-d912d52233db",
+      "name": "Jeera Rice",
+      "category": "Super Wok Tossed",
+      "price": 8000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-47e3fec75ee9",
+      "name": "Ghee Rice",
+      "category": "Super Wok Tossed",
+      "price": 9000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 1,
+      "tax": null
+    },
+    {
+      "id": "sk-1c4201e54eb0",
+      "name": "Channa Masala",
+      "category": "Veg Curries & Masalas",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-66bdece17683",
+      "name": "Kadai Paneer",
+      "category": "Veg Curries & Masalas",
+      "price": 8000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-bc7d6631cf5d",
+      "name": "Paneer Butter Masala",
+      "category": "Veg Curries & Masalas",
+      "price": 8000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-7acaaf4887fc",
+      "name": "Dal Fry",
+      "category": "Veg Curries & Masalas",
+      "price": 6000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-2813164adda1",
+      "name": "Dal Tadka",
+      "category": "Veg Curries & Masalas",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-fa8ecb2310de",
+      "name": "Mix Veg Curry",
+      "category": "Veg Curries & Masalas",
+      "price": 8000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-ef1293545284",
+      "name": "Mushroom Masala",
+      "category": "Veg Curries & Masalas",
+      "price": 7000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-0ba84807653c",
+      "name": "Kaju Masala",
+      "category": "Veg Curries & Masalas",
+      "price": 10000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-ea67629d7ab2",
+      "name": "Pepper Chicken Masala",
+      "category": "Curries & Masalas",
+      "price": 11000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-1be3ea570afb",
+      "name": "Chicken Chettinad",
+      "category": "Curries & Masalas",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-552584217fb4",
+      "name": "Chicken Masala",
+      "category": "Curries & Masalas",
+      "price": 9000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-9f01df5600f5",
+      "name": "Chicken Pallipalayam",
+      "category": "Curries & Masalas",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-9d7313153399",
+      "name": "Chicken Hyderabadi",
+      "category": "Curries & Masalas",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-9f7475dd4d24",
+      "name": "Butter Chicken Masala",
+      "category": "Curries & Masalas",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-d493b3e0f838",
+      "name": "Kadai Chicken",
+      "category": "Curries & Masalas",
+      "price": 13000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-3bebdda5c6ac",
+      "name": "Egg Keema",
+      "category": "Curries & Masalas",
+      "price": 7000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-9a2e39129c26",
+      "name": "Egg Masala",
+      "category": "Curries & Masalas",
+      "price": 7000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-a37afdced69d",
+      "name": "Roti",
+      "category": "Breads",
+      "price": 1000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-b42ecdd2463a",
+      "name": "Butter Roti",
+      "category": "Breads",
+      "price": 2000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-8dcf3aa7af53",
+      "name": "Naan",
+      "category": "Breads",
+      "price": 2500,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-356e5c057995",
+      "name": "Butter Naan",
+      "category": "Breads",
+      "price": 3000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-054c28869425",
+      "name": "Garlic Naan",
+      "category": "Breads",
+      "price": 5000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-2ab8988f548e",
+      "name": "Sandwich Veg",
+      "category": "Sandwiches",
+      "price": 6000,
+      "variant": "",
+      "veg": true,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-f94451bc96b0",
+      "name": "Sandwich Chicken",
+      "category": "Sandwiches",
+      "price": 8000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-e78e5c7036da",
+      "name": "Sandwich Peri-Peri",
+      "category": "Sandwiches",
+      "price": 9000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-477a989a262c",
+      "name": "Chicken Twister",
+      "category": "Sandwiches",
+      "price": 11000,
+      "variant": "",
+      "veg": false,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-157350e473f5",
+      "name": "Jelli Pili",
+      "category": "Chill-O-Chill",
+      "price": 6000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-038ac3958619",
+      "name": "Minto-Message",
+      "category": "Chill-O-Chill",
+      "price": 6000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-9de07966df51",
+      "name": "Lemon Ice Tea",
+      "category": "Chill-O-Chill",
+      "price": 5000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-a5007524cb0a",
+      "name": "Vetiver Sarbat",
+      "category": "Chill-O-Chill",
+      "price": 5000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-d44169688059",
+      "name": "Turkey Milk Shake",
+      "category": "Chill-O-Chill",
+      "price": 7000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    },
+    {
+      "id": "sk-f665c61f149f",
+      "name": "Palkova Milk Shake",
+      "category": "Chill-O-Chill",
+      "price": 7000,
+      "variant": "",
+      "veg": null,
+      "sourcePage": 2,
+      "tax": null
+    }
+  ]
+}
