@@ -11,6 +11,8 @@ const root=fileURLToPath(new URL('./',import.meta.url));
 const publicRoot=path.join(root,'public');
 const digest=value=>createHash('sha256').update(value).digest('hex');
 const problem=(status,message,code='invalid_request')=>Object.assign(new Error(message),{status,code});
+const temporaryIdentity='temporary-test@localhost';
+const temporaryActive=config=>!!config.temporaryPasswordHash&&Date.now()<config.temporaryUntil;
 
 export function readConfig(env=process.env){
   const production=env.NODE_ENV==='production';
@@ -26,7 +28,10 @@ export function readConfig(env=process.env){
   if(production&&(!env.DATABASE_URL||!googleConfigured||parsed.protocol!=='https:'))throw new Error('Production requires DATABASE_URL, HTTPS PUBLIC_URL, OWNER_EMAIL and the three Google OAuth settings.');
   const localPassword=!production&&['localhost','127.0.0.1','[::1]'].includes(parsed.hostname)?env.LOCAL_PASSWORD||'':'';
   if(localPassword&&localPassword.length<12)throw new Error('LOCAL_PASSWORD must have at least 12 characters.');
-  return {production,port,host:env.HOST||(production?'0.0.0.0':'127.0.0.1'),origin:parsed.origin,ownerEmail,google,googleConfigured,localPassword,databaseUrl:env.DATABASE_URL,sqlitePath:path.resolve(env.DATA_DIR||path.join(root,'data'),'preview.sqlite')};
+  const temporaryPasswordHash=env.TEMP_LOGIN_PASSWORD_SHA256||'';
+  const temporaryUntil=Date.parse(env.TEMP_LOGIN_UNTIL||'');
+  if(temporaryPasswordHash&&(!/^[a-f0-9]{64}$/.test(temporaryPasswordHash)||!Number.isFinite(temporaryUntil)))throw new Error('Temporary login requires a valid password hash and expiry.');
+  return {production,port,host:env.HOST||(production?'0.0.0.0':'127.0.0.1'),origin:parsed.origin,ownerEmail,google,googleConfigured,localPassword,temporaryPasswordHash,temporaryUntil,databaseUrl:env.DATABASE_URL,sqlitePath:path.resolve(env.DATA_DIR||path.join(root,'data'),'preview.sqlite')};
 }
 
 async function readJson(req){
@@ -74,15 +79,17 @@ export async function createApp({store,config,googleTransport}={}){
   async function session(req){
     const token=cookies(req)[sessionCookie];if(!token||!/^[A-Za-z0-9_-]{43}$/.test(token))return null;
     const result=await store.query('SELECT email,name FROM simple_sessions WHERE id=? AND expires_at>?',[digest(token),new Date().toISOString()]);
-    return result.rows[0]||null;
+    const user=result.rows[0]||null;
+    return user?.email===temporaryIdentity&&!temporaryActive(config)?null:user;
   }
   async function issue(user){
     const token=randomBytes(32).toString('base64url');
+    const expires=Math.min(Date.now()+12*3600000,user.email===temporaryIdentity?config.temporaryUntil:Infinity);
     await store.transaction(async tx=>{
       await tx.query('DELETE FROM simple_sessions WHERE expires_at<=?',[new Date().toISOString()]);
-      await tx.query('INSERT INTO simple_sessions (id,email,name,expires_at) VALUES (?,?,?,?)',[digest(token),user.email,user.name,new Date(Date.now()+12*3600000).toISOString()]);
+      await tx.query('INSERT INTO simple_sessions (id,email,name,expires_at) VALUES (?,?,?,?)',[digest(token),user.email,user.name,new Date(expires).toISOString()]);
     });
-    return cookie(sessionCookie,token,12*3600);
+    return cookie(sessionCookie,token,Math.max(0,Math.floor((expires-Date.now())/1000)));
   }
   const attempts=new Map();
   const handler=async(req,res)=>{
@@ -97,7 +104,7 @@ export async function createApp({store,config,googleTransport}={}){
       if(url.pathname==='/api/health'&&req.method==='GET'){
         await store.query('SELECT 1');return json(200,{ok:true,storage:config.databaseUrl?'postgres':'local-preview'});
       }
-      if(url.pathname==='/api/auth'&&req.method==='GET')return json(200,{user:await session(req),googleConfigured:config.googleConfigured,localLogin:!!config.localPassword});
+      if(url.pathname==='/api/auth'&&req.method==='GET')return json(200,{user:await session(req),googleConfigured:config.googleConfigured,localLogin:!!config.localPassword,temporaryLogin:temporaryActive(config),temporaryUntil:temporaryActive(config)?new Date(config.temporaryUntil).toISOString():null});
       if(url.pathname==='/api/google/start'&&req.method==='GET'){
         if(!config.googleConfigured)throw problem(503,'Google sign-in is awaiting the owner’s hosting setup.','auth_not_configured');
         const start=await google.start();res.writeHead(302,{Location:start.url,'Set-Cookie':cookie(flowCookie,start.browserToken,300)});return res.end();
@@ -121,14 +128,16 @@ export async function createApp({store,config,googleTransport}={}){
           body=await readJson(req);
         }
         if(url.pathname==='/api/login'&&req.method==='POST'){
-          if(!config.localPassword)throw problem(403,'Please use Google sign-in.');
+          const temporary=temporaryActive(config);
+          if(!config.localPassword&&!temporary)throw problem(403,'Please use Google sign-in. Temporary access is unavailable or expired.');
           const now=Date.now(),key=req.socket.remoteAddress||'local';
           for(const [k,v]of attempts)if(v.until<now)attempts.delete(k);
           const limit=attempts.get(key)||{count:0,until:now+15*60000};
           if(limit.count>=8||(!attempts.has(key)&&attempts.size>=500))throw problem(429,'Too many attempts. Please wait 15 minutes.');
           limit.count++;attempts.set(key,limit);
-          if(typeof body.password!=='string'||body.password.length>512||!timingSafeEqual(Buffer.from(digest(body.password)),Buffer.from(digest(config.localPassword))))throw problem(401,'That password did not match. Please try again.');
-          attempts.delete(key);const user={name:'Local preview',email:'preview@localhost'};
+          const expected=temporary?config.temporaryPasswordHash:digest(config.localPassword);
+          if(typeof body.password!=='string'||body.password.length>512||!timingSafeEqual(Buffer.from(digest(body.password)),Buffer.from(expected)))throw problem(401,'That password did not match. Please try again.');
+          attempts.delete(key);const user=temporary?{name:'Temporary testing',email:temporaryIdentity}:{name:'Local preview',email:'preview@localhost'};
           res.setHeader('Set-Cookie',await issue(user));return json(200,{user});
         }
         const user=await session(req);if(!user)throw problem(401,'Please sign in to continue.','sign_in_required');

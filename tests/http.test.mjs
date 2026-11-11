@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import {randomUUID} from 'node:crypto';
+import {randomUUID,createHash} from 'node:crypto';
 import {mkdtemp,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
@@ -101,4 +101,20 @@ test('production configuration requires persistent storage, HTTPS and owner Goog
   assert.throws(()=>readConfig({...production,GOOGLE_REDIRECT_URI:'https://elsewhere.example.invalid/api/google/callback'}),/GOOGLE_REDIRECT_URI must match/);
   assert.throws(()=>readConfig({...production,PUBLIC_URL:'https://billing.example.invalid/extra'}),/origin only/);
   assert.equal(readConfig({NODE_ENV:'development',PUBLIC_URL:'http://remote.example.invalid',LOCAL_PASSWORD:password}).localPassword,'');
+});
+
+test('temporary login requires its secret and expires both login and issued sessions',async t=>{
+  const f=await fixture(t);f.config.localPassword='';
+  f.config.temporaryPasswordHash=createHash('sha256').update(password).digest('hex');
+  f.config.temporaryUntil=Date.now()+60000;
+  assert.equal((await (await f.request('/api/auth')).json()).temporaryLogin,true);
+  assert.equal((await f.post('/api/login',{password:'wrong-password'})).status,401);
+  await f.login();
+  assert.equal((await f.request('/api/state')).status,200);
+  const saved=(await f.store.query('SELECT * FROM simple_sessions')).rows[0];
+  assert.ok(Date.parse(saved.expires_at)<=f.config.temporaryUntil);
+  f.config.temporaryUntil=Date.now()-1;
+  assert.equal((await (await f.request('/api/auth')).json()).temporaryLogin,false);
+  assert.equal((await f.request('/api/state')).status,401);
+  assert.equal((await f.post('/api/login',{password})).status,403);
 });
