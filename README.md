@@ -39,6 +39,10 @@ Production refuses to start without a persistent database, HTTPS public origin a
 
 ## Payment and printing boundaries
 
+### Temporary testing access
+
+The owner can authorize an expiring password login while Google setup is pending. The login screen shows its expiry. Only the password hash and deadline are stored in the private authentication table; the password is never committed. Sessions are capped at the deadline and expire after at most twelve hours. Updating the deadline requires the running service to reload its authentication configuration. Google remains available. Test bills are real saved records in the hosted database, not an automatically cleared sandbox.
+
 HDFC confirmation is manual bookkeeping, not a bank integration. The website neither listens to the soundbox nor independently verifies funds, controls a POS terminal or sends it an amount. Verify the exact successful merchant receipt first; optional transaction references are retained. Merely opening payment does not mark a bill paid. Failed/uncertain saves retain the original request identity so checking it does not duplicate the payment.
 
 Settings chooses 58 or 80 mm paper. Use a printer installed on the operating device and select it in the browser's print dialog. Match paper size in the driver, disable browser headers/footers and review the preview. Opening a dialog does not prove physical output. Print failures do not undo a paid bill. No direct cloud-to-LAN, USB/Bluetooth bridge or silent printing is claimed.
@@ -46,10 +50,10 @@ Settings chooses 58 or 80 mm paper. Use a printer installed on the operating dev
 ## Executed verification
 
 - `npm run check`: passed after the finished frontend/backend were present.
-- `npm test`: **13/13 passed**, actual local service and HTTP boundaries, including table assignment/removal, saved prices/header snapshots, retries, immutable paid bills, stock/spending, login/logout, origin and exact media-type checks. Loopback tests required host access outside the execution sandbox.
+- `npm test`: **14/14 passed**, actual local service and HTTP boundaries, including table assignment/removal, saved prices/header snapshots, retries, immutable paid bills, stock/spending, login/logout, temporary access and session expiry, origin and exact media-type checks. Loopback tests required host access outside the execution sandbox.
 - `scripts/verify-postgres.mjs`: passed against the isolated real Neon branch, covering 100 menu items, saved bill identity, manual payment retries, saved receipt retrieval and one linked stock purchase. It was run before the later additive receipt-header snapshot refinement; that refinement is covered by local tests, not a subsequent cloud run.
 - Browser: local sign-in; menu addition; no-table bill at ₹110; save; reload; reopen; assign Table 2; save; manual UPI confirmation; Paid status and Print/New bill actions; secondary menu and stock form opening were observed. Inventory browser entry was interrupted before completion. Full responsive, recovery, accessibility and printing browser checks remain incomplete.
 
 No live deployment, real Google OAuth login, HDFC bank connection, physical receipt, production migration or untrained-user usability test was verified. No performance or resource-efficiency claim is made.
 
-Source is published at [naresh29mpakp/sattyz-simple](https://github.com/naresh29mpakp/sattyz-simple). The GitHub connector can read the public repository but its write request returned an integration-permission error; uploading through this PC's existing authorized Git credentials succeeded. Render is not connected, and production Google sign-in settings are still required. Neon project access/provisioning and the isolated database were verified. Source publication is not an application deployment; a live URL must not be reported until hosting and sign-in succeed.
+Source is published at [naresh29mpakp/sattyz-simple](https://github.com/naresh29mpakp/sattyz-simple). The app is hosted at [Sattyz Billing](https://sattyz-simple.onrender.com/). HTTPS, PostgreSQL health, protected records, temporary sign-in and sign-out were verified. Google sign-in is blocked until the deployed callback is registered in the OAuth client's allowed redirects. Render management calls have intermittently failed; verify the actual website after deployment and configuration changes. The GitHub connector's write request returned an integration-permission error; publishing through this PC's existing authorized Git credentials succeeded.
