@@ -105,8 +105,9 @@ test('production configuration requires persistent storage, HTTPS and owner Goog
 
 test('temporary login requires its secret and expires both login and issued sessions',async t=>{
   const f=await fixture(t);f.config.localPassword='';
-  f.config.temporaryPasswordHash=createHash('sha256').update(password).digest('hex');
-  f.config.temporaryUntil=Date.now()+60000;
+  const expiry=new Date(Date.now()+60000).toISOString();
+  await f.store.query('INSERT INTO simple_temp_access(id,password_hash,expires_at) VALUES(?,?,?)',[1,createHash('sha256').update(password).digest('hex'),expiry]);
+  await createApp({store:f.store,config:f.config});
   assert.equal((await (await f.request('/api/auth')).json()).temporaryLogin,true);
   assert.equal((await f.post('/api/login',{password:'wrong-password'})).status,401);
   await f.login();

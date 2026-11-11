@@ -28,10 +28,7 @@ export function readConfig(env=process.env){
   if(production&&(!env.DATABASE_URL||!googleConfigured||parsed.protocol!=='https:'))throw new Error('Production requires DATABASE_URL, HTTPS PUBLIC_URL, OWNER_EMAIL and the three Google OAuth settings.');
   const localPassword=!production&&['localhost','127.0.0.1','[::1]'].includes(parsed.hostname)?env.LOCAL_PASSWORD||'':'';
   if(localPassword&&localPassword.length<12)throw new Error('LOCAL_PASSWORD must have at least 12 characters.');
-  const temporaryPasswordHash=env.TEMP_LOGIN_PASSWORD_SHA256||'';
-  const temporaryUntil=Date.parse(env.TEMP_LOGIN_UNTIL||'');
-  if(temporaryPasswordHash&&(!/^[a-f0-9]{64}$/.test(temporaryPasswordHash)||!Number.isFinite(temporaryUntil)))throw new Error('Temporary login requires a valid password hash and expiry.');
-  return {production,port,host:env.HOST||(production?'0.0.0.0':'127.0.0.1'),origin:parsed.origin,ownerEmail,google,googleConfigured,localPassword,temporaryPasswordHash,temporaryUntil,databaseUrl:env.DATABASE_URL,sqlitePath:path.resolve(env.DATA_DIR||path.join(root,'data'),'preview.sqlite')};
+  return {production,port,host:env.HOST||(production?'0.0.0.0':'127.0.0.1'),origin:parsed.origin,ownerEmail,google,googleConfigured,localPassword,temporaryPasswordHash:'',temporaryUntil:0,databaseUrl:env.DATABASE_URL,sqlitePath:path.resolve(env.DATA_DIR||path.join(root,'data'),'preview.sqlite')};
 }
 
 async function readJson(req){
@@ -55,8 +52,13 @@ export async function createApp({store,config,googleTransport}={}){
   for(const sql of [
     'CREATE TABLE IF NOT EXISTS simple_sessions (id TEXT PRIMARY KEY, email TEXT NOT NULL, name TEXT NOT NULL, expires_at TEXT NOT NULL)',
     'CREATE TABLE IF NOT EXISTS simple_google_flows (id TEXT PRIMARY KEY, data TEXT NOT NULL, expires_at TEXT NOT NULL)',
-    'CREATE TABLE IF NOT EXISTS simple_owner (id INTEGER PRIMARY KEY, subject TEXT NOT NULL, email TEXT NOT NULL)'
+    'CREATE TABLE IF NOT EXISTS simple_owner (id INTEGER PRIMARY KEY, subject TEXT NOT NULL, email TEXT NOT NULL)',
+    'CREATE TABLE IF NOT EXISTS simple_temp_access (id INTEGER PRIMARY KEY, password_hash TEXT NOT NULL, expires_at TEXT NOT NULL)'
   ])await store.query(sql);
+  const temporaryRow=(await store.query('SELECT password_hash,expires_at FROM simple_temp_access WHERE id=1')).rows[0];
+  if(temporaryRow&&/^[a-f0-9]{64}$/.test(temporaryRow.password_hash)&&Number.isFinite(Date.parse(temporaryRow.expires_at))){
+    config.temporaryPasswordHash=temporaryRow.password_hash;config.temporaryUntil=Date.parse(temporaryRow.expires_at);
+  }else{config.temporaryPasswordHash='';config.temporaryUntil=0;}
   const service=await createService(store);
   const flowStore={
     reserve:async(id,value)=>store.transaction(async tx=>{
