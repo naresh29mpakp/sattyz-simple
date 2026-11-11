@@ -52,4 +52,4 @@ Settings chooses 58 or 80 mm paper. Use a printer installed on the operating dev
 
 No live deployment, real Google OAuth login, HDFC bank connection, physical receipt, production migration or untrained-user usability test was verified. No performance or resource-efficiency claim is made.
 
-At handoff GitHub's advertised account tools returned `Unknown tool`, and no Render connector was available. Neon project access/provisioning and the isolated database were verified. A live URL must not be reported until publication and sign-in succeed.
+Source is published at [naresh29mpakp/sattyz-simple](https://github.com/naresh29mpakp/sattyz-simple). The GitHub connector can read the public repository but its write request returned an integration-permission error; uploading through this PC's existing authorized Git credentials succeeded. Render is not connected, and production Google sign-in settings are still required. Neon project access/provisioning and the isolated database were verified. Source publication is not an application deployment; a live URL must not be reported until hosting and sign-in succeed.
