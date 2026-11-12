@@ -1,0 +1,64 @@
+/* Task-focused refinement: keep Sattyz's warm surfaces and burnt-orange action. */
+:root{--ink:#202c39;--muted:#56616a;--line:#dddcd6;--focus:#9a351b}
+::selection{background:#f6d9ca;color:#202c39}
+input,select,textarea{caret-color:var(--accent)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--focus)}
+.menu-panel{min-width:0}
+.menu-category{display:flex;align-items:center;gap:12px;margin:14px 0 10px;font-size:.9rem;font-weight:650}
+.menu-category select{flex:1;min-width:0;min-height:48px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);padding:10px 36px 10px 12px;font-size:1rem}
+.photo-disclosure{font-size:.8rem;color:var(--muted);line-height:1.5;margin:8px 0 16px;max-width:70ch}
+.food-photo{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:#eee5d9}
+.food-copy{display:flex;flex-direction:column;flex:1;width:100%;padding:14px}
+.food-copy .food-name{font-size:1rem;line-height:1.4}
+.food-copy .food-category{font-size:.75rem;letter-spacing:0;text-transform:none;line-height:1.4}
+.food-copy .food-variant{font-size:.82rem;line-height:1.4}
+.food-copy .food-price{font-size:1.05rem;font-variant-numeric:tabular-nums}
+.food-add{min-width:36px;height:36px}
+.food-button:hover{border-color:var(--accent);transform:none}
+.food-button:active{background:#fff5ed}
+.food-button:focus-visible{outline-offset:3px}
+.back-to-menu{display:none}
+.page-heading h1{letter-spacing:-.03em}
+.page-heading p,.field,.list-title{font-size:.94rem}
+.field input,.field select,.field textarea{font-size:1rem}
+.field small,.list-meta,.metric-detail,.support-text,.cart-variant,.cart-save-state{font-size:.82rem;line-height:1.5}
+.list-action,.text-button,.back-link{min-height:44px;padding-top:10px;padding-bottom:10px}
+.menu-count{font-size:.85rem;color:var(--muted)}
+.cart-panel{box-shadow:none;border-radius:14px}
+.total-row strong,.metric-value,.list-amount{font-variant-numeric:tabular-nums}
+.topbar-badge{font-size:.82rem}
+.nav-label{font-size:.75rem;color:var(--muted)}
+.section-panel-head p,.open-bill-card small,.stock-card small{font-size:.82rem}
+.login-copy h1{letter-spacing:-.035em}
+.login-card>p{font-size:1rem}
+.login-story:after{display:none}
+@media(min-width:761px) and (max-width:980px){
+ .sidebar .nav-button{flex-direction:column;gap:7px;padding:12px 3px}
+ .sidebar .nav-button>span:not(.icon):not(.nav-count){display:block;font-size:.75rem;text-align:center}
+ .sidebar .nav-button .nav-count{display:none}
+}
+@media(max-width:760px){
+ .topbar{height:64px}.topbar-date{font-size:.78rem}.topbar-title{font-size:1rem}
+ .main-content{padding:20px 16px 28px}.page-heading h1{font-size:1.7rem}
+ .menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .food-copy{padding:12px}.food-copy .food-name{font-size:.95rem}
+ .food-copy .food-category{font-size:.72rem}.food-copy .food-variant{font-size:.8rem;margin-bottom:12px}
+ .food-photo{aspect-ratio:4/3}.food-added{font-size:.75rem;top:7px;right:7px}
+ .bill-layout:not(.cart-focused)>.cart-panel{display:none}
+ .bill-layout.cart-focused{display:flex;flex-direction:column}
+ .bill-layout.cart-focused>.menu-panel{display:none}
+ .bill-layout.cart-focused>.cart-panel{display:block;margin-top:0}
+ .bill-layout.cart-focused>.back-to-menu{display:flex;align-self:flex-start;order:-1;gap:8px;margin-bottom:16px}
+ .main-content:has(.cart-focused)>.page-heading{display:none}
+ .mobile-cart-button{left:16px;right:16px;min-height:58px;font-size:.95rem;bottom:76px;border-radius:12px}
+ .mobile-cart-button strong{font-size:1.1rem}
+ .sidebar .nav-button{font-size:.78rem;padding:8px 10px}
+ .dialog-body{padding:20px}.dialog-body>p{font-size:.95rem}
+ .table-choice{min-height:64px}.payment-amount{font-variant-numeric:tabular-nums}
+ .more-button h2{font-size:1.1rem}.more-button p{font-size:.9rem}
+ .page-heading:has(.date-input){flex-wrap:wrap}
+ .metric-label{font-size:.8rem}.metric-detail{font-size:.78rem}
+ .settings-form{padding:20px}.heading-actions .button{font-size:.9rem}
+}
+@media(prefers-reduced-motion:reduce){.food-button{transition:none}}
+.status-dot.disconnected{background:#a43d1f}

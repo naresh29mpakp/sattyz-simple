@@ -159,10 +159,11 @@ export async function createApp({store,config,googleTransport}={}){
       const pathname=decodeURIComponent(url.pathname);
       const file=path.resolve(publicRoot,pathname==='/'?'index.html':'.'+pathname);
       if(!file.startsWith(publicRoot+path.sep))throw problem(404,'File not found.');
-      const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.ico':'image/x-icon'};
+      const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon'};
       const type=types[path.extname(file)];if(!type)throw problem(404,'File not found.');
       const info=await stat(file).catch(()=>null);if(!info?.isFile())throw problem(404,'File not found.');
       res.setHeader('Content-Type',type);
+      if(/^\/photos\/[a-z-]+-v\d+\.webp$/.test(pathname))res.setHeader('Cache-Control','public, max-age=86400');
       if(req.method==='HEAD')return res.end();
       res.end(await readFile(file));
     }catch(error){

@@ -1,3 +1,5 @@
+import {photoFor} from './menu-photos.js';
+
 const $ = (selector, root = document) => root.querySelector(selector);
 const app = $('#app');
 const dialog = $('#dialog');
@@ -45,6 +47,8 @@ let draft = emptyDraft();
 let toastTimer;
 let paymentMethod = 'UPI';
 let lastStateAt = null;
+let cartFocused = false;
+let connectionHealthy = true;
 const pending = new Map();
 
 function emptyDraft() { return {id:null,number:null,version:0,status:'Open',tableId:null,lines:[],total:0,payment:null}; }
@@ -106,7 +110,9 @@ function busy(active) {
   });
 }
 async function loadState({renderPage = true} = {}) {
-  const next = await request(`/api/state?date=${encodeURIComponent(selectedDate)}`);
+  let next;
+  try {next=await request(`/api/state?date=${encodeURIComponent(selectedDate)}`);connectionHealthy=true;}
+  catch(error){connectionHealthy=false;throw error;}
   state = next;
   lastStateAt = new Date();
   if (renderPage) render();
@@ -114,16 +120,16 @@ async function loadState({renderPage = true} = {}) {
 }
 async function refresh() {
   try { await loadState({renderPage:false});if (view === 'today') await loadHistory();else render();showToast('Up to date.'); }
-  catch (error) { showToast(errorText(error),true); }
+  catch (error) { render();showToast(errorText(error),true); }
 }
 
 function renderLogin(error = '') {
   app.innerHTML = `<div class="login-shell">
     <section class="login-story"><div class="brand"><span class="brand-mark">S</span><div class="brand-name">Sattyz Kitchen<small>Your everyday counter</small></div></div>
-      <div class="login-copy"><p class="eyebrow">LESS WORK. MORE SERVING.</p><h1>A little simpler.<br>A lot easier.</h1><p>Good food, happy tables, and bills that take just a few taps.</p><div class="login-steps"><span><b>1</b> Pick the food</span><span><b>2</b> Take payment</span><span><b>3</b> Print the bill</span></div></div>
+      <div class="login-copy"><h1>A little simpler.<br>A lot easier.</h1><p>Good food, happy tables, and bills that take just a few taps.</p><div class="login-steps"><span><b>1</b> Pick the food</span><span><b>2</b> Take payment</span><span><b>3</b> Print the bill</span></div></div>
       <div class="login-story-foot">Made for the way your kitchen works.</div>
     </section>
-    <main class="login-panel"><div class="login-card"><p class="eyebrow">WELCOME BACK</p><h2>Let’s open the counter.</h2><p>Sign in to see your menu, open bills and today’s numbers.</p>
+    <main class="login-panel"><div class="login-card"><h2>Let’s open the counter.</h2><p>Sign in to see your menu, open bills and today’s numbers.</p>
       ${error ? `<div class="error-box" role="alert">${esc(error)}</div>` : ''}
       ${auth?.googleConfigured ? `<a class="button secondary full" href="/api/google/start"><span class="google-letter" aria-hidden="true">G</span> Continue with Google</a>` : ''}
       ${auth?.localLogin || auth?.temporaryLogin ? `<form id="login-form" class="login-local"><label class="field">${auth.temporaryLogin?'Temporary test password':'Local development password'}<input name="password" type="password" autocomplete="current-password" required minlength="12" placeholder="Enter your password"></label><button class="button primary full" type="submit" data-mutate>${auth.temporaryLogin?'Start testing':'Sign in'}</button><p class="support-text">${auth.temporaryLogin?`Testing access expires ${esc(dateTimeLabel(auth.temporaryUntil))}. Test bills are saved in the hosted database.`:'Local preview only. The hosted app uses the owner’s Google account.'}</p></form>` : ''}
@@ -138,9 +144,9 @@ function render() {
   const currentNav = ['billing','open'].includes(view) ? view : 'more';
   const name = state.settings?.name || 'Sattyz Kitchen';
   const labels = {billing:'The counter',open:'Open bills',more:'A little more',today:'Today',stock:'Stock',spending:'Spending',menu:'Your menu',tables:'Tables',settings:'Settings'};
-  app.innerHTML = `<div class="app-shell"><aside class="sidebar"><div class="brand"><span class="brand-mark">S</span><div class="brand-name">${esc(name)}<small>Simple billing</small></div></div><p class="nav-label">YOUR COUNTER</p><nav class="primary-nav" aria-label="Main navigation">${nav.map(([id,image,label]) => `<button class="nav-button${currentNav === id ? ' active' : ''}" data-action="${id === 'billing' ? 'new-bill' : 'navigate'}" data-view="${id}" ${id === 'billing' ? 'data-mutate' : ''} aria-label="${label}" ${currentNav === id ? 'aria-current="page"' : ''}>${icon(image)}<span>${label}</span>${id === 'open' && state.openBills.length ? `<span class="nav-count">${state.openBills.length}</span>` : ''}</button>`).join('')}</nav><div class="sidebar-foot"><div class="online-note"><span class="status-dot"></span> Online counter</div><div class="owner-line">${esc(auth.user.name || 'Owner')}</div><button class="logout-button" data-action="logout">Sign out</button></div></aside>
-    <div class="workspace"><header class="topbar"><div><div class="topbar-title">${esc(labels[view] || 'Sattyz Kitchen')}</div><div class="topbar-date">${new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'long',day:'numeric',month:'long'}).format(new Date())}</div></div><button class="topbar-badge" data-action="${unresolvedOperation() ? 'check-save' : 'refresh'}" aria-label="${unresolvedOperation() ? 'Check previous save' : 'Refresh online records'}"><span class="status-dot"></span> ${unresolvedOperation() ? 'Save needs checking' : 'Online · Refresh'}</button></header><main class="main-content" id="main-content">${contentForView()}</main></div>
-    ${view === 'billing' && draft.lines.length ? `<button class="mobile-cart-button" data-action="view-cart"><span>${icon('receipt')} View bill · ${currentCount()} ${currentCount() === 1 ? 'item' : 'items'}</span><strong>${esc(money(totalOf()))}</strong></button>` : ''}</div>`;
+  app.innerHTML = `<div class="app-shell"><aside class="sidebar"><div class="brand"><span class="brand-mark">S</span><div class="brand-name">${esc(name)}<small>Simple billing</small></div></div><p class="nav-label">YOUR COUNTER</p><nav class="primary-nav" aria-label="Main navigation">${nav.map(([id,image,label]) => `<button class="nav-button${currentNav === id ? ' active' : ''}" data-action="${id === 'billing' ? 'new-bill' : 'navigate'}" data-view="${id}" ${id === 'billing' ? 'data-mutate' : ''} aria-label="${label}" ${currentNav === id ? 'aria-current="page"' : ''}>${icon(image)}<span>${label}</span>${id === 'open' && state.openBills.length ? `<span class="nav-count">${state.openBills.length}</span>` : ''}</button>`).join('')}</nav><div class="sidebar-foot"><div class="online-note"><span class="status-dot${connectionHealthy?'':' disconnected'}"></span> ${connectionHealthy?'Records connected':'Connection needs checking'}</div><div class="owner-line">${esc(auth.user.name || 'Owner')}</div><button class="logout-button" data-action="logout">Sign out</button></div></aside>
+    <div class="workspace"><header class="topbar"><div><div class="topbar-title">${esc(labels[view] || 'Sattyz Kitchen')}</div><div class="topbar-date">${new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'long',day:'numeric',month:'long'}).format(new Date())}</div></div><button class="topbar-badge" data-action="${unresolvedOperation() ? 'check-save' : 'refresh'}" aria-label="${unresolvedOperation() ? 'Check previous save' : 'Refresh online records'}"><span class="status-dot${connectionHealthy?'':' disconnected'}"></span> ${unresolvedOperation() ? 'Save needs checking' : (connectionHealthy?'Connected · Refresh':'Retry connection')}</button></header><main class="main-content" id="main-content">${contentForView()}</main></div>
+    ${view === 'billing' && draft.lines.length && !cartFocused ? `<button class="mobile-cart-button" data-action="view-cart"><span>${icon('receipt')} Review bill · ${currentCount()} ${currentCount() === 1 ? 'item' : 'items'}</span><strong>${esc(money(totalOf()))}</strong></button>` : ''}</div>`;
   if (saving) busy(true);
 }
 function heading(title,description,actions = '',back = true) {
@@ -164,18 +170,18 @@ function emptyState(image,title,description,action = '') {
 function renderBilling() {
   const categories = ['All',...new Set(state.menu.filter(item => item.available).map(item => item.category))];
   if (!categories.includes(category)) category = 'All';
-  return `${heading('Let’s make a bill.','Tap the food. We’ll do the adding up.',draft.id ? `<button class="button secondary" data-action="new-bill" data-mutate>${icon('plus')} New bill</button>` : '',false)}
-    <div class="bill-layout"><section class="menu-panel" aria-label="Menu"><div class="search-box">${icon('search')}<input class="search-input" id="menu-search" type="search" placeholder="Find a dish…" value="${esc(search)}" aria-label="Find a dish" autocomplete="off"></div><div class="category-row" role="group" aria-label="Menu categories">${categories.map(name => `<button class="category-button${name === category ? ' active' : ''}" data-action="category" data-category="${esc(name)}" aria-pressed="${name === category}">${esc(name)}</button>`).join('')}</div><div id="menu-results">${renderMenuResults()}</div></section>${renderCart()}</div>`;
+  return `${heading('New bill','Choose food, review the bill, then take payment.',draft.id ? `<button class="button secondary" data-action="new-bill" data-mutate>${icon('plus')} New bill</button>` : '',false)}
+    <div class="bill-layout${cartFocused ? ' cart-focused' : ''}"><section class="menu-panel" aria-label="Menu"><div class="search-box">${icon('search')}<input class="search-input" id="menu-search" type="search" placeholder="Find a dish…" value="${esc(search)}" aria-label="Find a dish" autocomplete="off"></div><label class="menu-category"><span>Category</span><select id="menu-category" aria-label="Menu category">${categories.map(name => `<option value="${esc(name)}" ${name === category ? 'selected' : ''}>${esc(name)}</option>`).join('')}</select></label><p class="photo-disclosure">Photos are illustrative serving suggestions. Recipes and portions may differ.</p><div id="menu-results">${renderMenuResults()}</div></section>${renderCart()}<button class="button secondary back-to-menu" data-action="back-to-menu">${icon('back')} Back to menu</button></div>`;
 }
 function renderMenuResults() {
   const term = search.trim().toLocaleLowerCase();
   const items = state.menu.filter(item => item.available && (category === 'All' || item.category === category) && `${item.name} ${item.variant || ''} ${item.category}`.toLocaleLowerCase().includes(term));
-  return `<div class="menu-count"><span>${items.length} ${items.length === 1 ? 'dish' : 'dishes'}${category !== 'All' ? ` in ${esc(category)}` : ' on the menu'}</span><span>Tap to add ${icon('plus')}</span></div>${items.length ? `<div class="menu-grid">${items.map(item => { const count = draft.lines.filter(line => line.menuId === item.id).reduce((sum,line) => sum + line.qty,0); return `<button class="food-button" data-action="add-item" data-id="${esc(item.id)}" aria-label="Add ${esc(item.name)}${item.variant ? `, ${esc(item.variant)}` : ''}, ${esc(money(item.price))}" ${draft.status !== 'Open' ? 'disabled' : ''}><span class="food-category">${esc(item.category)}</span>${count ? `<span class="food-added">${count} added</span>` : ''}<span class="food-name">${esc(item.name)}</span><span class="food-variant">${esc(item.variant || 'Standard serve')}</span><span class="food-bottom"><span class="food-price">${esc(money(item.price))}</span><span class="food-add" aria-hidden="true">+</span></span></button>`; }).join('')}</div>` : emptyState('search','No dishes found.','Try another name or choose a different category.')}`;
+  return `<div class="menu-count"><span>${items.length} ${items.length === 1 ? 'dish' : 'dishes'}${category !== 'All' ? ` in ${esc(category)}` : ' on the menu'}</span><span>Tap to add ${icon('plus')}</span></div>${items.length ? `<div class="menu-grid">${items.map(item => { const count = draft.lines.filter(line => line.menuId === item.id).reduce((sum,line) => sum + line.qty,0); return `<button class="food-button" data-action="add-item" data-id="${esc(item.id)}" aria-label="Add ${esc(item.name)}${item.variant ? `, ${esc(item.variant)}` : ''}, ${esc(money(item.price))}" ${draft.status !== 'Open' ? 'disabled' : ''}><img class="food-photo" src="${photoFor(item)}" alt="" width="480" height="320" loading="lazy" decoding="async"><span class="food-copy"><span class="food-category">${esc(item.category)}</span>${count ? `<span class="food-added">${count} added</span>` : ''}<span class="food-name">${esc(item.name)}</span><span class="food-variant">${esc(item.variant || 'Standard serve')}</span><span class="food-bottom"><span class="food-price">${esc(money(item.price))}</span><span class="food-add" aria-hidden="true">+</span></span></span></button>`; }).join('')}</div>` : emptyState('search','No dishes found.','Try another name or choose a different category.')}`;
 }
 function renderCart() {
   const paid = draft.status === 'Paid';
   const closed = draft.status !== 'Open';
-  return `<aside class="cart-panel" id="current-bill" aria-label="Current bill"><div class="cart-head"><div class="cart-title"><h2>Your bill</h2><span class="bill-label">${esc(billNumber(draft))}</span></div><button class="table-button" data-action="choose-table" ${draft.status !== 'Open' ? 'disabled' : ''}><span>${icon('table')} ${esc(tableName(draft.tableId))}</span><span>${draft.tableId ? 'Change' : 'Choose table'} ${icon('arrow')}</span></button></div>
+  return `<aside class="cart-panel" id="current-bill" tabindex="-1" aria-label="Current bill"><div class="cart-head"><div class="cart-title"><h2>Your bill</h2><span class="bill-label">${esc(billNumber(draft))}</span></div><button class="table-button" data-action="choose-table" ${draft.status !== 'Open' ? 'disabled' : ''}><span>${icon('table')} ${esc(tableName(draft.tableId))}</span><span>${draft.tableId ? 'Change' : 'Choose table'} ${icon('arrow')}</span></button></div>
     ${draft.lines.length ? `<div class="cart-lines">${draft.lines.map((line,index) => `<div class="cart-line"><div><div class="cart-item-name">${esc(line.name)}</div><div class="cart-variant">${esc(line.variant || '')}${line.variant ? ' · ' : ''}${esc(money(line.price))} each</div>${!paid ? `<div class="quantity-control"><button data-action="quantity" data-index="${index}" data-delta="-1" aria-label="Remove one ${esc(line.name)}">−</button><span aria-label="Quantity ${line.qty}">${line.qty}</span><button data-action="quantity" data-index="${index}" data-delta="1" aria-label="Add one ${esc(line.name)}">+</button></div>` : `<div class="cart-variant">Quantity: ${line.qty}</div>`}</div><div class="cart-line-price">${esc(money(line.price * line.qty))}</div></div>`).join('')}</div>` : `<div class="cart-empty">${icon('bowl')}<h3>What’s cooking?</h3><p>Tap a dish to start your bill.<br>A table is always optional.</p></div>`}
     <div class="cart-bottom"><div class="total-row"><span>Total${draft.lines.length ? ` · ${currentCount()} ${currentCount() === 1 ? 'item' : 'items'}` : ''}</span><strong>${esc(money(totalOf()))}</strong></div>
       ${closed ? `<button class="button primary full" data-action="print-current">${icon('print')} Print bill</button><button class="button secondary full" data-action="new-bill" data-mutate>${icon('plus')} New bill</button><p class="cart-save-state">${esc(draft.status)}${paid ? ` · ${esc(draft.payment?.method || '')}` : ''}</p>` : `<button class="button primary full" data-action="take-payment" data-mutate ${!draft.lines.length ? 'disabled' : ''}>Take payment ${icon('arrow')}</button><button class="button secondary full" data-action="save-later" data-mutate ${!draft.lines.length ? 'disabled' : ''}>Save for later</button><p class="cart-save-state">${dirty ? 'Changes not saved yet' : draft.id ? 'Saved online' : 'A fresh start. Add your first dish.'}</p>`}
@@ -275,15 +281,15 @@ async function saveCurrent() {
 async function startNewBill() {
   if (draft.status === 'Open' && dirty && draft.lines.length) await saveCurrent();
   if (draft.status === 'Open' && draft.id && dirty && !draft.lines.length) throw new Error('The empty draft has not been saved. Add a dish or cancel the saved bill before starting another.');
-  draft = emptyDraft(); dirty = false; search = ''; category = 'All'; view = 'billing';
+  draft = emptyDraft(); dirty = false; search = ''; category = 'All'; view = 'billing'; cartFocused=false;
   await loadState();
 }
 async function openSavedBill(id) {
-  if (draft.id === id && dirty) {view = 'billing';render();window.scrollTo({top:0,behavior:'smooth'});return;}
+  if (draft.id === id && dirty) {view = 'billing';cartFocused=true;render();window.scrollTo({top:0,behavior:'smooth'});return;}
   if (draft.id !== id && draft.status === 'Open' && dirty && draft.lines.length) await saveCurrent();
   const bill = await request(`/api/bills/${encodeURIComponent(id)}`);
   if (bill.status === 'Paid' || bill.status === 'Cancelled') return openBillDetails(bill);
-  setDraft(bill); view = 'billing'; render(); window.scrollTo({top:0,behavior:'smooth'});
+  setDraft(bill); view = 'billing'; cartFocused=true; render(); window.scrollTo({top:0,behavior:'smooth'});
 }
 function openPayment() {
   paymentMethod = 'UPI';
@@ -370,7 +376,10 @@ document.addEventListener('click', async event => {
       const line = draft.lines.find(row => row.menuId === item.id && row.price === item.price);
       if (line) line.qty += 1;
       else draft.lines.push({menuId:item.id,name:item.name,variant:item.variant,price:item.price,qty:1,total:item.price});
-      dirty = true;render();return;
+      dirty = true;render();
+      document.querySelector(`.food-button[data-id="${CSS.escape(item.id)}"]`)?.focus({preventScroll:true});
+      $('#announcer').textContent=`Added ${item.name}. ${currentCount()} ${currentCount()===1?'item':'items'}. Total ${money(totalOf())}.`;
+      return;
     }
     if (action === 'quantity') {
       const index = Number(button.dataset.index),line = draft.lines[index];
@@ -385,9 +394,10 @@ document.addEventListener('click', async event => {
     }
     if (action === 'choose-table') return openTablePicker();
     if (action === 'set-table') {draft.tableId = button.dataset.id || null;dirty = true;dialog.close();render();return;}
-    if (action === 'view-cart') return $('#current-bill').scrollIntoView({behavior:'smooth',block:'start'});
+    if (action === 'view-cart') {cartFocused=true;render();window.scrollTo({top:0});$('#current-bill').focus({preventScroll:true});return;}
+    if (action === 'back-to-menu') {cartFocused=false;render();window.scrollTo({top:0});$('#menu-search').focus({preventScroll:true});return;}
     if (action === 'new-bill' || action === 'paid-new-bill') {busy(true);await startNewBill();dialog.close();window.scrollTo({top:0,behavior:'smooth'});return;}
-    if (action === 'save-later') {busy(true);await saveCurrent();draft = emptyDraft();dirty = false;await loadState();showToast('Bill saved. Find it in Open bills.');return;}
+    if (action === 'save-later') {busy(true);await saveCurrent();cartFocused=false;draft = emptyDraft();dirty = false;await loadState();showToast('Bill saved. Find it in Open bills.');return;}
     if (action === 'take-payment') {busy(true);await saveCurrent();await loadState();openPayment();return;}
     if (action === 'payment-method') {paymentMethod = button.dataset.method;renderPaymentDialog();return;}
     if (action === 'open-bill') {busy(true);dialog.close();await openSavedBill(button.dataset.id);return;}
@@ -480,3 +490,6 @@ async function boot() {
   }
 }
 boot();
+
+// Native category selection keeps every category discoverable without a sideways strip.
+document.addEventListener('change',event=>{if(event.target.id==='menu-category'){category=event.target.value;render();document.querySelector('#menu-category')?.focus();}});

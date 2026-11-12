@@ -4,12 +4,20 @@
   "private": true,
   "type": "module",
   "description": "Simple online billing for Sattyz Kitchen",
-  "engines": { "node": ">=24.18.0 <25" },
+  "engines": {
+    "node": ">=24.18.0 <25"
+  },
   "packageManager": "npm@11.16.0",
   "scripts": {
     "start": "node --env-file-if-exists=.env server.mjs",
     "check": "node scripts/check.mjs",
     "test": "node --test tests/*.test.mjs"
   },
-  "dependencies": { "openid-client": "6.8.9", "pg": "8.16.3" }
+  "dependencies": {
+    "openid-client": "6.8.9",
+    "pg": "8.16.3"
+  },
+  "devDependencies": {
+    "sharp": "0.35.5"
+  }
 }
